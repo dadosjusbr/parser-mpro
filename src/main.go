@@ -12,10 +12,10 @@ import (
 )
 
 type Environment struct {
-	Month        int
-	Year         int
-	OutputFolder string
-	GitCommit    string
+	Month        int    `envconfig:"MONTH" required:"true"`
+	Year         int    `envconfig:"YEAR" required:"true"`
+	OutputFolder string `envconfig:"OUTPUT_FOLDER" default:"/output"`
+	GitCommit    string `envconfig:"GIT_COMMIT" required:"true"`
 }
 
 func main() {
@@ -27,47 +27,27 @@ func main() {
 	}
 
 	month := env.Month
-	if month == 0 {
-		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Invalid arguments, missing environment variable: 'MONTH'.")))
-		os.Exit(1)
-	}
-
 	year := env.Year
-	if year == 0 {
-		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Invalid arguments, missing environment variable: 'YEAR'.")))
-		os.Exit(1)
-	}
-
 	outputPath := env.OutputFolder
-	if outputPath == "" {
-		outputPath = "/output"
-	}
-
 	crawlerVersion := env.GitCommit
-	if crawlerVersion == "" {
-		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Invalid arguments, missing environment variable: 'GIT_COMMIT'.\n")))
-		os.Exit(1)
-	}
 
 	if month < 1 || month > 12 {
 		status.ExitFromError(status.NewError(status.SystemError, fmt.Errorf("Invalid month %d: InvalidParameters.\n", month)))
 		os.Exit(1)
 	}
 
-	currentYear, currentMonth, _ := time.Now().Date()
+	now := time.Now()
+	currData := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+	crawlDate := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, now.Location())
 
-	if (year == int(currentYear)) && (year > int(currentMonth)) {
-		status.ExitFromError(status.NewError(status.SystemError, fmt.Errorf("As master Yoda would say: 'one must not crawl/parse the future %s/%s'.\n", month, year)))
-		os.Exit(1)
-	}
-	if year > int(currentYear) {
+	if crawlDate.After(currData) {
 		status.ExitFromError(status.NewError(status.SystemError, fmt.Errorf("As master Yoda would say: 'one must not crawl/parse the future %s/%s'.\n", month, year)))
 		os.Exit(1)
 	}
 
 	// Main execution
 	fileNames := Crawl(month, year, outputPath)
-	employees := Parse(fileNames, month, year)
+	employees := Parse(month, year, fileNames)
 
 	cr := coletores.ExecutionResult{
 		Cr: coletores.CrawlingResult{

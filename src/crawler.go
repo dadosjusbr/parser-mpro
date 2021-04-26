@@ -1,6 +1,6 @@
 package main
 
-func Crawl(month int, year int, output_path string) []string {
+func Crawl(month int, year int, outputPath string) []string {
 	var paths []string
 	return paths
 }

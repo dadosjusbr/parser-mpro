@@ -4,6 +4,6 @@ import (
 	"github.com/dadosjusbr/coletores"
 )
 
-func Parse(file_names []string, month int, year int) []coletores.Employee {
+func Parse(month int, year int, fileNames []string) []coletores.Employee {
 	return []coletores.Employee{}
 }
