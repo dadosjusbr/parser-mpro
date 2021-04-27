@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -10,7 +11,11 @@ import (
 	"github.com/dadosjusbr/coletores/status"
 )
 
-// Inicializa um mapa com o formato da url para cada tipo de planilha
+var urlFormats = map[string]string{
+	"remu": "&__sessionId=%s&__format=xls&__asattachment=true&__overwrite=false",
+}
+
+// Inicializa um mapa com o formato da url complementar para cada tipo de planilha
 func initComplements(month, year int) map[string]string {
 	return map[string]string{
 		"remu": fmt.Sprint("https://servicos-portal.mpro.mp.br/plcVis/frameset?__report=..%2FROOT%2Frel%2Fcontracheque%2Fmembros%2FremuneracaoMembrosAtivos.rptdesign&anomes=", year, fmt.Sprintf("%02d", month), "&nome=&cargo=&lotacao="),
@@ -36,14 +41,38 @@ func seasonId(url string) string {
 	return seasonId
 }
 
+func download(url string, filePath string) {
+
+	resp, err := http.Get(url)
+	if err != nil {
+		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Não foi possível fazer o download do arquivo: %s .O seguinte erro foi gerado: %q", filePath, err)))
+		os.Exit(1)
+	}
+
+	file, err := os.Create(filePath)
+	if err != nil {
+		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Não foi possível fazer o download do arquivo: %s .O seguinte erro foi gerado: %q", filePath, err)))
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	io.Copy(file, resp.Body)
+	defer resp.Body.Close()
+}
+
 func Crawl(month int, year int, outputPath string) []string {
 	var paths []string
 	complements := initComplements(month, year)
 
-	for key, complement := range complements {
-		var fileName = "file" + key + ".xls"
-		seasonId := seasonId(complement)
-		fmt.Println(fileName, seasonId)
+	for key, _ := range complements {
+		var fileName = fmt.Sprint(year, "_", fmt.Sprintf("%02d", month), "_", key)
+		var filePath = fmt.Sprint(outputPath, "/", fileName, ".xls")
+
+		seasonId := seasonId(complements[key])
+		url := fmt.Sprint(complements[key], fmt.Sprintf(urlFormats[key], seasonId))
+
+		download(url, filePath)
+		paths = append(paths, filePath)
 	}
 
 	return paths
