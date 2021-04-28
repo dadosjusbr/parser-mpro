@@ -11,69 +11,74 @@ import (
 	"github.com/dadosjusbr/coletores/status"
 )
 
-var urlFormats = map[string]string{
-	"remu": "&__sessionId=%s&__format=xls&__asattachment=true&__overwrite=false",
+type urlRequest struct {
+	remuDownloadURL string
 }
 
-// Inicializa um mapa com o formato da url complementar para cada tipo de planilha
-func initComplements(month, year int) map[string]string {
-	return map[string]string{
-		"remu": fmt.Sprint("https://servicos-portal.mpro.mp.br/plcVis/frameset?__report=..%2FROOT%2Frel%2Fcontracheque%2Fmembros%2FremuneracaoMembrosAtivos.rptdesign&anomes=", year, fmt.Sprintf("%02d", month), "&nome=&cargo=&lotacao="),
+// Retorna as url para download de cada planilha em questão
+func initRequests(month, year int) (urlRequest, error) {
+
+	idURL := fmt.Sprint("https://servicos-portal.mpro.mp.br/plcVis/frameset?__report=..%2FROOT%2Frel%2Fcontracheque%2Fmembros%2FremuneracaoMembrosAtivos.rptdesign&anomes=", year, fmt.Sprintf("%02d", month), "&nome=&cargo=&lotacao=")
+	sessionId, err := seasonId(idURL)
+	if err != nil {
+		return urlRequest{}, err
 	}
+
+	downloadURL := fmt.Sprint(idURL, fmt.Sprintf("&__sessionId=%s&__format=xls&__asattachment=true&__overwrite=false", sessionId))
+	return urlRequest{downloadURL}, nil
+
 }
 
 // Inicializa o id de sessão para uma dada url
-func seasonId(url string) string {
-
+func seasonId(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		status.ExitFromError(status.NewError(status.ConnectionError, fmt.Errorf("Was not possible to get a season id to the url: %s. %q", url, err)))
-		os.Exit(1)
+		return "", status.NewError(status.ConnectionError, fmt.Errorf("Was not possible to get a season id to the url: %s. %q", url, err))
 	}
 	defer resp.Body.Close()
 
 	page, err := ioutil.ReadAll(resp.Body)
-	htmlCode := string(page)
+	if err != nil {
+		return "", status.NewError(status.ConnectionError, fmt.Errorf("Was not possible to get a season id to the url: %s. %q", url, err))
+	}
 
+	htmlCode := string(page)
 	id := strings.Split(htmlCode, "Constants.viewingSessionId = \"")
 	seasonId := id[1][0:19]
 
-	return seasonId
+	return seasonId, err
 }
 
-func download(url string, filePath string) {
-
+func download(url string, filePath string) error {
 	resp, err := http.Get(url)
 	if err != nil {
-		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Não foi possível fazer o download do arquivo: %s .O seguinte erro foi gerado: %q", filePath, err)))
-		os.Exit(1)
+		return status.NewError(status.DataUnavailable, fmt.Errorf("Was not possible download the file: %s .The following mistake was taken: %q", filePath, err))
 	}
+	defer resp.Body.Close()
 
 	file, err := os.Create(filePath)
 	if err != nil {
-		status.ExitFromError(status.NewError(status.DataUnavailable, fmt.Errorf("Não foi possível fazer o download do arquivo: %s .O seguinte erro foi gerado: %q", filePath, err)))
-		os.Exit(1)
+		return status.NewError(status.DataUnavailable, fmt.Errorf("Was not possible download the file: %s .The following mistake was taken: %q", filePath, err))
 	}
 	defer file.Close()
 
 	io.Copy(file, resp.Body)
-	defer resp.Body.Close()
+	return nil
 }
 
-func Crawl(month int, year int, outputPath string) []string {
+func Crawl(month int, year int, outputPath string) ([]string, error) {
 	var paths []string
-	complements := initComplements(month, year)
 
-	for key, _ := range complements {
-		var fileName = fmt.Sprint(year, "_", fmt.Sprintf("%02d", month), "_", key)
-		var filePath = fmt.Sprint(outputPath, "/", fileName, ".xls")
+	var fileName = fmt.Sprint(year, "_", fmt.Sprintf("%02d", month), "_remu")
+	var filePath = fmt.Sprint(outputPath, "/", fileName, ".xls")
 
-		seasonId := seasonId(complements[key])
-		url := fmt.Sprint(complements[key], fmt.Sprintf(urlFormats[key], seasonId))
-
-		download(url, filePath)
-		paths = append(paths, filePath)
+	request, err := initRequests(year, month)
+	if err != nil {
+		return paths, err
 	}
 
-	return paths
+	download(request.remuDownloadURL, filePath)
+	paths = append(paths, filePath)
+
+	return paths, nil
 }

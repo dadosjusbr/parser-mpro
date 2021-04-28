@@ -46,7 +46,11 @@ func main() {
 	}
 
 	// Main execution
-	fileNames := Crawl(month, year, outputPath)
+	fileNames, err := Crawl(month, year, outputPath)
+	if err != nil {
+		status.ExitFromError(err)
+		os.Exit(1)
+	}
 	employees := Parse(month, year, fileNames)
 
 	cr := coletores.ExecutionResult{
