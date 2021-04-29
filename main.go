@@ -48,7 +48,6 @@ func main() {
 	// Main execution
 	fileNames, err := Crawl(month, year, outputPath)
 	if err != nil {
-		status.ExitFromError(err)
 		os.Exit(1)
 	}
 	employees := Parse(month, year, fileNames)
@@ -71,7 +70,6 @@ func main() {
 	result, err := json.MarshalIndent(cr, "", "  ")
 	if err != nil {
 		status.ExitFromError(status.NewError(status.SystemError, fmt.Errorf("JSON marshiling error: %q", err)))
-		os.Exit(1)
 	}
 	fmt.Println(string(result))
 }
