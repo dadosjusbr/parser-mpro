@@ -14,7 +14,7 @@ import (
 type Environment struct {
 	Month        int    `envconfig:"MONTH" required:"true"`
 	Year         int    `envconfig:"YEAR" required:"true"`
-	OutputFolder string `envconfig:"OUTPUT_FOLDER" default:"/output"`
+	OutputFolder string `envconfig:"OUTPUT_FOLDER" default:"./output"`
 	GitCommit    string `envconfig:"GIT_COMMIT" required:"true"`
 }
 
@@ -46,7 +46,10 @@ func main() {
 	}
 
 	// Main execution
-	fileNames := Crawl(month, year, outputPath)
+	fileNames, err := Crawl(month, year, outputPath)
+	if err != nil {
+		os.Exit(1)
+	}
 	employees := Parse(month, year, fileNames)
 
 	cr := coletores.ExecutionResult{
@@ -67,7 +70,6 @@ func main() {
 	result, err := json.MarshalIndent(cr, "", "  ")
 	if err != nil {
 		status.ExitFromError(status.NewError(status.SystemError, fmt.Errorf("JSON marshiling error: %q", err)))
-		os.Exit(1)
 	}
 	fmt.Println(string(result))
 }
