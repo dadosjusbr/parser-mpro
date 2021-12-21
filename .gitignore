@@ -1,1 +1,5 @@
-mpro
+__pycache__
+output
+.vscode
+old
+chromedriver
