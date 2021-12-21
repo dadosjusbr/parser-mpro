@@ -1,0 +1,150 @@
+{
+    "contraCheque": [
+        {
+            "idContraCheque": "mpro/01/2020/1",
+            "chaveColeta": "mpro/01/2020",
+            "nome": "ANA BRIGIDA XANDER WESSEL",
+            "matricula": "20826",
+            "funcao": "PROMOTOR(A) DE JUSTIÇA DE 3a",
+            "localTrabalho": "3ª PMJ",
+            "ativo": true,
+            "remuneracoes": {
+                "remuneracao": [
+                    {
+                        "categoria": "contracheque",
+                        "item": "Remuneração do Cargo Efetivo",
+                        "valor": 33689.11
+                    },
+                    {
+                        "categoria": "contracheque",
+                        "item": "Outras Verbas Remuneratórias Legais/Judiciais",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "contracheque",
+                        "item": "Função de Confiança ou Cargo em Comissão",
+                        "valor": 3376.0,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "contracheque",
+                        "item": "13o. Salário",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "contracheque",
+                        "item": "Adicional de Férias",
+                        "valor": 37065.11,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "contracheque",
+                        "item": "Abono de Permanência",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "natureza": "D",
+                        "categoria": "contracheque",
+                        "item": "Contribuição Previdenciária",
+                        "valor": -4548.02
+                    },
+                    {
+                        "natureza": "D",
+                        "categoria": "contracheque",
+                        "item": "Imposto de Renda",
+                        "valor": -17396.38
+                    },
+                    {
+                        "natureza": "D",
+                        "categoria": "contracheque",
+                        "item": "Retenção do Teto"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Alimentação",
+                        "valor": 1000.0,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Saúde",
+                        "valor": 600.0,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Moradia",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Transporte",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Creche",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Ajuda de Custo",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Escola",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Auxílio-Odontológico",
+                        "valor": 250.0,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Outros Auxílios",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Abonos",
+                        "valor": 24710.07,
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Adicionais",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Comissões",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Diferenças",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Indenizações",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Outras Remunerações",
+                        "tipoReceita": "O"
+                    },
+                    {
+                        "categoria": "indenizacoes",
+                        "item": "Gratificações",
+                        "tipoReceita": "O"
+                    }
+                ]
+            }
+        }
+    ]
+}
