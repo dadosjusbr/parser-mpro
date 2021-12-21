@@ -1,3 +1,6 @@
+![testes](https://github.com/dadosjusbr/coletor-MPRO/actions/workflows/docker-publish.yml/badge.svg)    
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/dadosjusbr/coletor-MPRO)
+
 # Ministério Público de Rondônia (MPRO)
 
 Este coletor tem como objetivo a recuperação de informações sobre folhas de pagamentos de funcionários a partir do Ministério Público de Rondônia. O site com as informações pode ser acessado [aqui](https://servicos-portal.mpro.mp.br/web/mp-transparente/contracheque).
