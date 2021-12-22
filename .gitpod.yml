@@ -1,0 +1,15 @@
+
+ports:
+- port: 8080
+  onOpen: open-preview
+  
+tasks:
+- init: >
+    python3 -m pip install -r requirements.txt
+    
+github:
+    prebuilds:
+        # enable for the master/default branch (defaults to true)
+        master: true
+        # enable for pull requests coming from this repo (defaults to true)
+        pullRequests: true
