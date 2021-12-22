@@ -21,8 +21,7 @@ class TestParser(unittest.TestCase):
         result_data = parse(dados, 'mpro/01/2020', '01', '2020')
         # Converto o resultado do parser, em dict
         result_to_dict = MessageToDict(result_data)
-        # with open('src/output_test/expected/expected_01_2020.json', 'w') as fp:
-        #     json.dump(result_to_dict,fp,indent=4, ensure_ascii=False)
+        
         self.assertEqual(expected, result_to_dict)
 
 
