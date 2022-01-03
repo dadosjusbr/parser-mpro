@@ -35,12 +35,6 @@ if "GIT_COMMIT" in os.environ:
 else:
     crawler_version = "unspecified"
 
-if('DRIVER_PATH' in os.environ):
-    driver_path = os.environ['DRIVER_PATH']
-else:
-    sys.stderr.write("Invalid arguments, missing parameter: 'DRIVER_PATH'.\n")
-    os._exit(1)
-
 
 def parse_execution(data, file_names):
     # Cria objeto com dados da coleta.
@@ -74,7 +68,7 @@ def parse_execution(data, file_names):
 
 # Main execution
 def main():
-    file_names = crawler.crawl(year, month, output_path, driver_path)
+    file_names = [f.rstrip() for f in sys.stdin.readlines()]
     
     dados = data.load(file_names, year, month, output_path)
     dados.validate()  # Se não acontecer nada, é porque está tudo ok!
