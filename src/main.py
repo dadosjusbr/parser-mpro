@@ -6,7 +6,6 @@ from coleta import coleta_pb2 as Coleta, IDColeta
 from google.protobuf.timestamp_pb2 import Timestamp
 from google.protobuf import text_format
 
-import crawler
 from parser import parse
 import metadado
 import data
