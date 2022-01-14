@@ -1,5 +1,5 @@
-![testes](https://github.com/dadosjusbr/coletor-MPRO/actions/workflows/docker-publish.yml/badge.svg)    
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/dadosjusbr/coletor-MPRO)
+![docker](https://github.com/dadosjusbr/parser-mpro/actions/workflows/docker-publish.yml/badge.svg)    
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/dadosjusbr/parser-mpro)
 
 # Ministério Público de Rondônia (MPRO)
 
