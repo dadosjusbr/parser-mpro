@@ -65,17 +65,3 @@ Estas planilhas contém as informações de pagamento de todos os meses disponí
    ```sh
    pip install -r requirements.txt
    ```
-### Execução rápida com o Phyton:
-Para configurar de maneira mais rápida o python, pip, chromedriver e o requirements.txt, use o `config.sh` dentro do diretório `/mpro`:
-- Primeiro de permissão para executar:
-   ```sh
-   chmod +x config.sh
-   ```
-- Rode com:
-   ```sh
-   ./config.sh
-   ```
-- Depois use o comando para iniciar o coletor:
-   ```sh
-   MONTH=1 YEAR=2018 DRIVER_PATH=/chromedriver GIT_COMMIT=$(git rev-list -1 HEAD) python3 src/main.py
-   ```
