@@ -9,6 +9,7 @@ from google.protobuf import text_format
 from parser import parse
 import metadado
 import data
+import requests
 
 
 if "YEAR" in os.environ:
