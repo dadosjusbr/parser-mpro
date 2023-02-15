@@ -9,7 +9,6 @@ from google.protobuf import text_format
 from parser import parse
 import metadado
 import data
-import requests
 
 
 if "YEAR" in os.environ:
@@ -30,24 +29,15 @@ if "OUTPUT_FOLDER" in os.environ:
 else:
     output_path = "/output"
 
-if "GIT_COMMIT" in os.environ:
-    PARSER_VERSION = os.environ["GIT_COMMIT"]
-else:
-    PARSER_VERSION = "unspecified"
-
-# Pegando o ID do último commit do coletor
-headers = {
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-}
-response = requests.get(
-    'https://api.github.com/repos/dadosjusbr/coletor-mpro/commits', headers=headers)
-if response.status_code == 200:
-    response = response.json()
-    CRAWLER_VERSION = response[0]["sha"]
+if "CRAWLER_VERSION" in os.environ:
+    CRAWLER_VERSION = os.environ["CRAWLER_VERSION"]
 else:
     CRAWLER_VERSION = "unspecified"
 
+if "PARSER_VERSION" in os.environ:
+    PARSER_VERSION = os.environ["PARSER_VERSION"]
+else:
+    PARSER_VERSION = "unspecified"
 
 
 def parse_execution(data, file_names):
@@ -85,7 +75,7 @@ def parse_execution(data, file_names):
 # Main execution
 def main():
     file_names = [f.rstrip() for f in sys.stdin.readlines()]
-    
+
     dados = data.load(file_names, year, month, output_path)
     dados.validate()  # Se não acontecer nada, é porque está tudo ok!
 
