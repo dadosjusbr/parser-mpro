@@ -65,7 +65,7 @@ def parse_execution(data, file_names):
     rc.folha.CopyFrom(folha)
     rc.coleta.CopyFrom(coleta)
 
-    metadados = metadado.captura()
+    metadados = metadado.captura(year, month)
     rc.metadados.CopyFrom(metadados)
 
     # Imprime a versão textual na saída padrão.
