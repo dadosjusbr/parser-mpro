@@ -12,6 +12,9 @@ def captura():
     metadado.receita_base = Coleta.Metadados.OpcoesDetalhamento.DETALHADO
     metadado.despesas = Coleta.Metadados.OpcoesDetalhamento.DETALHADO
     metadado.outras_receitas = Coleta.Metadados.OpcoesDetalhamento.DETALHADO
-    metadado.formato_consistente = True
+    if (int(year) == 2024 and int(month) == 6):
+        metadado.formato_consistente = False
+    else:
+        metadado.formato_consistente = True
 
     return metadado
