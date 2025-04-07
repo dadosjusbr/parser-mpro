@@ -1,7 +1,7 @@
 from coleta import coleta_pb2 as Coleta
 
 
-def captura():
+def captura(year, month):
     metadado = Coleta.Metadados()
     metadado.acesso = Coleta.Metadados.FormaDeAcesso.NECESSITA_SIMULACAO_USUARIO
     metadado.extensao = Coleta.Metadados.Extensao.CSV
