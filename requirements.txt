@@ -1,4 +1,4 @@
-pandas==1.2.3
+pandas>=1.2.3
 protoDadosjusbr>=0.7
 protobuf==3.18.0
 selenium==3.141.0
