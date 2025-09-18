@@ -4,7 +4,7 @@ import os
 
 from coleta import coleta_pb2 as Coleta
 
-from headers_keys import (CONTRACHEQUE,
+from headers_keys import (CONTRACHEQUE, CONTRACHEQUE_2024,
                           INDENIZACOES, HEADERS)
 import number
 
@@ -82,7 +82,12 @@ def parse(data, chave_coleta, month, year):
     folha = Coleta.FolhaDePagamento()
 
     # Puts all parsed employees in the big map
-    employees.update(parse_employees(data.contracheque, chave_coleta, CONTRACHEQUE))
+    if int(year) > 2024 or (int(year) == 2024 and int(month) >= 6):
+        categoria = CONTRACHEQUE_2024
+    else:
+        categoria = CONTRACHEQUE
+
+    employees.update(parse_employees(data.contracheque, chave_coleta, categoria))
 
     update_employees(data.indenizatorias, employees, INDENIZACOES)
 
