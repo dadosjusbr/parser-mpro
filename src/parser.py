@@ -50,14 +50,14 @@ def cria_remuneracao(row, categoria):
         # Caso o valor seja negativo, ele vai transformar em positivo:
         remuneracao.valor = float(abs(number.format_value(row[value])))
 
-        if categoria == CONTRACHEQUE and value in ["COL08", "COL09", "COL10"]:
+        if categoria in [CONTRACHEQUE, CONTRACHEQUE_2024] and value in ["COL08", "COL09", "COL10"]:
             remuneracao.valor = remuneracao.valor * (-1)
             remuneracao.natureza = Coleta.Remuneracao.Natureza.Value("D")
         else: 
             remuneracao.tipo_receita = Coleta.Remuneracao.TipoReceita.Value("O")
 
         if (
-            categoria == CONTRACHEQUE
+            categoria in [CONTRACHEQUE, CONTRACHEQUE_2024]
            ) and value in ["COL01"]:
             remuneracao.tipo_receita = Coleta.Remuneracao.TipoReceita.Value("B")
 
